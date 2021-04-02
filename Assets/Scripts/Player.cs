@@ -18,6 +18,12 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     [SerializeField]
     private GameObject _tripleShot;
+    [SerializeField]
+    private GameObject _speedUp;
+    [SerializeField]
+    private bool _isSpeedPowerupActive = false;
+    private float _speedMultiplier = 4f;
+
 
 
     // Start is called before the first frame update
@@ -44,6 +50,7 @@ public class Player : MonoBehaviour
     /// After UPDATE
     /// </summary>
 
+    //Logic for shooting laser and tripleshot powerup
     void shootLaser()
     {   
         _canFire = Time.time + _fireRate;
@@ -59,11 +66,17 @@ public class Player : MonoBehaviour
 
     }
 
+    //Logic for movement and speed up powerup
     void calculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+        if(_isSpeedPowerupActive == true)
+        {
+            transform.Translate(direction * Time.deltaTime * _speed * _speedMultiplier);
+        }
+        else
         transform.Translate(direction * Time.deltaTime * _speed);
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.82f, 0f), 0);
@@ -79,6 +92,7 @@ public class Player : MonoBehaviour
 
     }
 
+    //Damage the player if hit by laser 
     public void Damage()
     {
         _lives -= 1;
@@ -90,15 +104,31 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Triple Shot Powerup
     public void TripleShotActive()
     {
         _isTripleShotActive = true;
         StartCoroutine(TripleShotActiveRoutine());
     }
 
+    //Coroutine for triple shot powerup
     IEnumerator TripleShotActiveRoutine()
     {
         yield return new WaitForSeconds(5f);
         _isTripleShotActive = false;
+    }
+
+    //Speed Up Powerup
+    public void SpeedUpActive()
+    {
+        _isSpeedPowerupActive = true;
+        StartCoroutine(SpeedUpActiveRoutine());
+    }
+
+    //Coroutine for speedup powerup
+    IEnumerator SpeedUpActiveRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        _isSpeedPowerupActive = false;
     }
 }
