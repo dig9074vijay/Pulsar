@@ -16,9 +16,14 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+
+    }
+
+    public void StartSpawning()
+    {
         StartCoroutine("SpawnEnemyRoutine");
         StartCoroutine(SpawnPowerupRoutine());
-
     }
 
     // Update is called once per frame
@@ -30,6 +35,7 @@ public class SpawnManager : MonoBehaviour
     //spawn gameObjects every five seconds
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3f);
         while (stopSpawning == false)
         {
             float RandomY = 7f;
@@ -42,6 +48,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
+        yield return new WaitForSeconds(3f);
+
         while (stopSpawning == false)
         {
             float RandY = 7f;
