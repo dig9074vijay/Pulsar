@@ -49,19 +49,21 @@ public class Enemy : MonoBehaviour
             }
             enemyAnim.SetTrigger("OnEnemyDeath");
             //Destroy us
+            Destroy(this.gameObject, 0.75f);
             _speed = 0;
-            Destroy(this.gameObject, 1f);
+
         }
 
         //If other is Laser
-        if(other.gameObject.tag == "Laser")
+        if (other.gameObject.tag == "Laser")
         {
             Destroy(other.gameObject);
             if(player != null)
             player.EnemyKilled(10);
             enemyAnim.SetTrigger("OnEnemyDeath");
+           
+            Destroy(this.gameObject, 0.75f);
             _speed = 0;
-            Destroy(this.gameObject, 1f);
         }
     }
 }

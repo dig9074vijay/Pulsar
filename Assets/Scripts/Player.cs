@@ -29,7 +29,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _score;
     private UI_Manager UI;
-
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
 
 
     // Start is called before the first frame update
@@ -111,6 +114,19 @@ public class Player : MonoBehaviour
         _lives -= 1;
         UI.UpdateLives(_lives);
         //check if dead
+        if(_lives == 2)
+        {
+            _leftEngine.SetActive(true);
+        }
+        else if(_lives == 1)
+        {
+            _rightEngine.SetActive(true);
+        }
+        else
+        {
+            _rightEngine.SetActive(false);
+            _leftEngine.SetActive(false);
+        }
         if(_lives < 1)
         {
             _spawnManager.playerIsDead();
