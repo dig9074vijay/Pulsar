@@ -109,10 +109,12 @@ public class Player : MonoBehaviour
             return;
         }
         _lives -= 1;
+        UI.UpdateLives(_lives);
         //check if dead
         if(_lives < 1)
         {
             _spawnManager.playerIsDead();
+            UI.GameOver();
             Destroy(this.gameObject);
         }
     }
