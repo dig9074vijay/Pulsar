@@ -18,11 +18,17 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     [SerializeField]
     private GameObject _tripleShot;
-    [SerializeField]
-    private GameObject _speedUp;
+ 
     [SerializeField]
     private bool _isSpeedPowerupActive = false;
     private float _speedMultiplier = 4f;
+    [SerializeField]
+    private bool _isShieldActive = false;
+    [SerializeField]
+    private GameObject _shield;
+    [SerializeField]
+    private int _score;
+    private UI_Manager UI;
 
 
 
@@ -32,7 +38,8 @@ public class Player : MonoBehaviour
         // take the current position = new position(0,0,0)
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-        if(_spawnManager == null)
+        UI = GameObject.Find("UI_Manager").GetComponent<UI_Manager>();
+        if (_spawnManager == null)
         {
             Debug.LogError("SpawnManager is NULL");
         }
@@ -95,6 +102,12 @@ public class Player : MonoBehaviour
     //Damage the player if hit by laser 
     public void Damage()
     {
+        if (_isShieldActive == true)
+        {
+            _shield.SetActive(false);
+            _isShieldActive = false;
+            return;
+        }
         _lives -= 1;
         //check if dead
         if(_lives < 1)
@@ -130,5 +143,18 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         _isSpeedPowerupActive = false;
+    }
+
+    public void ActivateShield()
+    {
+        _isShieldActive = true;
+        _shield.SetActive(true);
+    }
+
+    public void EnemyKilled(int points)
+    {
+        _score += points;
+        if(UI != null)
+        UI.ScoreUpdate(_score.ToString());
     }
 }

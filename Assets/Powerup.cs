@@ -37,7 +37,7 @@ public class Powerup : MonoBehaviour
                 else if (powerupID == 1)
                     player.SpeedUpActive();
                 else if (powerupID == 2)
-                    Debug.Log("Shield");
+                    player.ActivateShield();
                 
             }
             Destroy(this.gameObject);

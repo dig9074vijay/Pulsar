@@ -6,11 +6,12 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5f;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -46,6 +47,8 @@ public class Enemy : MonoBehaviour
         if(other.gameObject.tag == "Laser")
         {
             Destroy(other.gameObject);
+            if(player != null)
+            player.EnemyKilled(10);
             Destroy(this.gameObject);
         }
     }
