@@ -34,8 +34,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _leftEngine;
     [SerializeField]
-    private AudioClip _audio;
-    private AudioSource _audioSource;
+    private AudioClip _laserAudioClip;
+    private AudioSource _laserAudioSource;
+    [SerializeField]
+    private AudioClip _explosionAudioClip;
+    private AudioSource _explosionAudioSource;
+
 
 
     // Start is called before the first frame update
@@ -49,9 +53,19 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("SpawnManager is NULL");
         }
-        _audioSource = GameObject.Find("Laser_Sound").GetComponent<AudioSource>();
-        if (_audioSource == null)
-            Debug.LogError("AudioSource is null");
+        _laserAudioSource = GameObject.Find("Laser_Sound").GetComponent<AudioSource>();
+        _explosionAudioSource = GameObject.Find("Explosion_Sound").GetComponent<AudioSource>();
+
+        if (_laserAudioSource == null)
+            Debug.LogError("LaserAudioSource is null");
+        else
+            _laserAudioSource.clip = _laserAudioClip;
+        if (_explosionAudioSource == null)
+            Debug.LogError("ExplosionAudioSource is null");
+        else
+            _explosionAudioSource.clip = _explosionAudioClip;
+
+
     }
 
     // Update is called once per frame
@@ -78,8 +92,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laser, transform.position + new Vector3(0f, 0.9f, 0f), Quaternion.identity);
         }
-        _audioSource.clip = _audio;
-        _audioSource.Play();
+        _laserAudioSource.Play();
 
     }
 
@@ -116,6 +129,8 @@ public class Player : MonoBehaviour
         {
             _shield.SetActive(false);
             _isShieldActive = false;
+            playExplosionSound();
+
             return;
         }
         _lives -= 1;
@@ -134,7 +149,9 @@ public class Player : MonoBehaviour
             _rightEngine.SetActive(false);
             _leftEngine.SetActive(false);
         }
-        if(_lives < 1)
+        playExplosionSound();
+
+        if (_lives < 1)
         {
             _spawnManager.playerIsDead();
             UI.GameOver();
@@ -178,8 +195,14 @@ public class Player : MonoBehaviour
 
     public void EnemyKilled(int points)
     {
+        playExplosionSound();
         _score += points;
         if(UI != null)
         UI.ScoreUpdate(_score.ToString());
+    }
+
+    public void playExplosionSound()
+    {
+        _explosionAudioSource.Play();
     }
 }
