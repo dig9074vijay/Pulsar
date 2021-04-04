@@ -39,6 +39,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _explosionAudioClip;
     private AudioSource _explosionAudioSource;
+    [SerializeField]
+    private AudioClip _powerupAudioClip;
+    private AudioSource _powerupAudioSource;
 
 
 
@@ -55,6 +58,8 @@ public class Player : MonoBehaviour
         }
         _laserAudioSource = GameObject.Find("Laser_Sound").GetComponent<AudioSource>();
         _explosionAudioSource = GameObject.Find("Explosion_Sound").GetComponent<AudioSource>();
+        _powerupAudioSource = GameObject.Find("Powerup_Sound").GetComponent<AudioSource>();
+
 
         if (_laserAudioSource == null)
             Debug.LogError("LaserAudioSource is null");
@@ -64,6 +69,10 @@ public class Player : MonoBehaviour
             Debug.LogError("ExplosionAudioSource is null");
         else
             _explosionAudioSource.clip = _explosionAudioClip;
+        if (_powerupAudioSource == null)
+            Debug.LogError("PowerupAudioSource is null");
+        else
+            _powerupAudioSource.clip = _powerupAudioClip;
 
 
     }
@@ -162,6 +171,7 @@ public class Player : MonoBehaviour
     //Triple Shot Powerup
     public void TripleShotActive()
     {
+        _powerupAudioSource.Play();
         _isTripleShotActive = true;
         StartCoroutine(TripleShotActiveRoutine());
     }
@@ -176,6 +186,8 @@ public class Player : MonoBehaviour
     //Speed Up Powerup
     public void SpeedUpActive()
     {
+        _powerupAudioSource.Play();
+
         _isSpeedPowerupActive = true;
         StartCoroutine(SpeedUpActiveRoutine());
     }
@@ -183,12 +195,15 @@ public class Player : MonoBehaviour
     //Coroutine for speedup powerup
     IEnumerator SpeedUpActiveRoutine()
     {
+
         yield return new WaitForSeconds(5f);
         _isSpeedPowerupActive = false;
     }
 
     public void ActivateShield()
     {
+        _powerupAudioSource.Play();
+
         _isShieldActive = true;
         _shield.SetActive(true);
     }
