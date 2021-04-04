@@ -58,10 +58,9 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.tag == "Laser")
         {
             Destroy(other.gameObject);
-            if(player != null)
+            //if(player != null)
             player.EnemyKilled(10);
             enemyAnim.SetTrigger("OnEnemyDeath");
-           
             Destroy(this.gameObject, 0.75f);
             _speed = 0;
         }
