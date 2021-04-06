@@ -60,6 +60,7 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             //if(player != null)
             player.EnemyKilled(10);
+            Destroy(GetComponent<Collider2D>());
             enemyAnim.SetTrigger("OnEnemyDeath");
             Destroy(this.gameObject, 0.75f);
             _speed = 0;

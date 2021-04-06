@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _powerupAudioClip;
     private AudioSource _powerupAudioSource;
+    [SerializeField]
+    private Joystick _joystick;
+
 
 
 
@@ -90,7 +93,7 @@ public class Player : MonoBehaviour
     /// </summary>
 
     //Logic for shooting laser and tripleshot powerup
-    void shootLaser()
+    public void shootLaser()
     {   
         _canFire = Time.time + _fireRate;
         if (_isTripleShotActive == true)
@@ -108,8 +111,8 @@ public class Player : MonoBehaviour
     //Logic for movement and speed up powerup
     void calculateMovement()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = _joystick.Horizontal; //Input.GetAxis("Horizontal") ||;
+        float verticalInput = _joystick.Vertical; // Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
         if(_isSpeedPowerupActive == true)
         {
